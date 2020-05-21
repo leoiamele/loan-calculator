@@ -16,6 +16,8 @@ function calculateResults(e){
   const principal = parseFloat(amount.value);
   const calculatedInterest = parseFloat(interest.value) / 100 / 12;
   const calculatedPayments = parseFloat(years.value) * 12;
+  
+  
 
   //Compute monthly Payments
   const x = Math.pow(1 + calculatedInterest, calculatedPayments);
@@ -25,11 +27,26 @@ function calculateResults(e){
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
+
   } else {
-    alert('Check your numbers');
+    
+    showError('Plese check your numbers ...')
   }
 
-  console.log(monthly);
-
   e.preventDefault();
+}
+
+function showError(error) {
+  const errorDiv = document.createElement('div');
+  const alertDiv = document.getElementById('alert');
+
+  errorDiv.className = 'alert alert-danger mt-3'
+  errorDiv.innerText = error;
+  alertDiv.appendChild(errorDiv)
+
+  setTimeout(clearError, 2500)
+
+  function clearError() {
+    alertDiv.removeChild(alertDiv.firstChild);
+  }
 }
