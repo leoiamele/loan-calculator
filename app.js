@@ -1,5 +1,15 @@
 //Listen to Calculate button
-document.getElementById('loan-form').addEventListener('submit', calculateResults);
+document.getElementById('loan-form').addEventListener('submit', function(e){
+  document.getElementById('results').style.display='none';
+  //show Loader
+  document.getElementById('loading').style.display='block';
+  setTimeout(calculateResults, 1500)
+  
+  
+
+  e.preventDefault();
+});
+
 
 //CalculateResults Function
 function calculateResults(e){
@@ -27,16 +37,18 @@ function calculateResults(e){
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
+    document.getElementById('loading').style.display='none';
+    document.getElementById('results').style.display='block';
 
   } else {
-    
-    showError('Plese check your numbers ...')
+    showError('Ups ... algo salió mal. Por favor, revisá el formulario');
   }
-
-  e.preventDefault();
+  
 }
 
 function showError(error) {
+  document.getElementById('loading').style.display='none';
+  document.getElementById('results').style.display='none';
   const errorDiv = document.createElement('div');
   const alertDiv = document.getElementById('alert');
 
@@ -44,7 +56,7 @@ function showError(error) {
   errorDiv.innerText = error;
   alertDiv.appendChild(errorDiv)
 
-  setTimeout(clearError, 2500)
+  setTimeout(clearError, 3000)
 
   function clearError() {
     alertDiv.removeChild(alertDiv.firstChild);
